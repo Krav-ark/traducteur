@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Tamil ↔ Français</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -20,7 +20,7 @@
     --red: #e05555;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
   body {
     background: var(--bg);
@@ -30,7 +30,6 @@
     overflow-x: hidden;
   }
 
-  /* Background texture */
   body::before {
     content: '';
     position: fixed;
@@ -42,270 +41,8 @@
     z-index: 0;
   }
 
-  .container {
-    position: relative;
-    z-index: 1;
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 24px 16px 40px;
-  }
-
-  /* Header */
-  header {
-    text-align: center;
-    margin-bottom: 32px;
-  }
-
-  .logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 28px;
-    color: var(--gold);
-    letter-spacing: 1px;
-    margin-bottom: 4px;
-  }
-
-  .logo span {
-    color: var(--gold2);
-  }
-
-  .subtitle {
-    font-size: 12px;
-    color: var(--muted);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-  }
-
-  /* Language toggle */
-  .lang-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 6px;
-    margin-bottom: 20px;
-  }
-
-  .lang-btn {
-    flex: 1;
-    padding: 10px;
-    border: none;
-    background: transparent;
-    border-radius: 12px;
-    color: var(--muted);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: center;
-  }
-
-  .lang-btn.fr { color: var(--fr); }
-  .lang-btn.ta { color: var(--ta); }
-  .lang-btn.active {
-    background: var(--border);
-    color: var(--text);
-  }
-
-  .swap-btn {
-    width: 36px;
-    height: 36px;
-    border: 1px solid var(--border);
-    background: var(--bg);
-    border-radius: 50%;
-    color: var(--gold);
-    font-size: 18px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s;
-    flex-shrink: 0;
-  }
-
-  .swap-btn:hover { background: var(--border); transform: rotate(180deg); }
-
-  /* Cards */
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 16px;
-    margin-bottom: 12px;
-  }
-
-  .card-label {
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-    font-weight: 500;
-  }
-
-  .card-label.fr { color: var(--fr); }
-  .card-label.ta { color: var(--ta); }
-
-  textarea {
-    width: 100%;
-    background: transparent;
-    border: none;
-    outline: none;
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 16px;
-    font-weight: 300;
-    resize: none;
-    min-height: 100px;
-    line-height: 1.6;
-  }
-
-  textarea::placeholder { color: var(--muted); }
-
-  .card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px solid var(--border);
-  }
-
-  /* Mic button */
-  .mic-btn {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    border: 2px solid var(--gold);
-    background: transparent;
-    color: var(--gold);
-    font-size: 22px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    position: relative;
-  }
-
-  .mic-btn:hover { background: rgba(201,168,76,0.1); }
-
-  .mic-btn.recording {
-    border-color: var(--red);
-    color: var(--red);
-    animation: pulse 1s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(224,85,85,0.4); }
-    50% { box-shadow: 0 0 0 10px rgba(224,85,85,0); }
-  }
-
-  .clear-btn {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 12px;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.2s;
-  }
-
-  .clear-btn:hover { border-color: var(--muted); color: var(--text); }
-
-  /* Translate button */
-  .translate-btn {
-    width: 100%;
-    padding: 16px;
-    background: linear-gradient(135deg, var(--gold), var(--gold2));
-    border: none;
-    border-radius: 16px;
-    color: #0f0e0c;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    letter-spacing: 0.5px;
-    transition: all 0.2s;
-    margin-bottom: 12px;
-  }
-
-  .translate-btn:hover { opacity: 0.9; transform: translateY(-1px); }
-  .translate-btn:active { transform: translateY(0); }
-  .translate-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
-
-  /* Result card */
-  .result-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 16px;
-    margin-bottom: 12px;
-    display: none;
-  }
-
-  .result-card.visible { display: block; animation: fadeIn 0.3s ease; }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .result-text {
-    font-size: 17px;
-    line-height: 1.7;
-    color: var(--text);
-    margin-bottom: 12px;
-    min-height: 40px;
-  }
-
-  .result-text.loading {
-    color: var(--muted);
-    font-style: italic;
-    font-size: 14px;
-  }
-
-  .result-actions {
-    display: flex;
-    gap: 8px;
-  }
-
-  .action-btn {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--muted);
-    border-radius: 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-  }
-
-  .action-btn:hover { border-color: var(--gold); color: var(--gold); }
-
-  /* Status bar */
-  .status {
-    text-align: center;
-    font-size: 12px;
-    color: var(--muted);
-    padding: 8px;
-    min-height: 28px;
-  }
-
-  .status.error { color: var(--red); }
-  .status.success { color: var(--green); }
-
-  /* API key setup */
-  .setup-overlay {
+  /* OVERLAY */
+  .overlay {
     position: fixed;
     inset: 0;
     background: rgba(15,14,12,0.97);
@@ -316,7 +53,9 @@
     padding: 24px;
   }
 
-  .setup-box {
+  .overlay.hidden { display: none; }
+
+  .box {
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 24px;
@@ -326,22 +65,53 @@
     text-align: center;
   }
 
-  .setup-icon { font-size: 40px; margin-bottom: 16px; }
+  .box-icon { font-size: 44px; margin-bottom: 16px; }
 
-  .setup-title {
+  .box-title {
     font-family: 'Playfair Display', serif;
-    font-size: 22px;
+    font-size: 24px;
     color: var(--gold);
     margin-bottom: 8px;
   }
 
-  .setup-desc {
+  .box-desc {
     font-size: 14px;
     color: var(--muted);
     line-height: 1.6;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
   }
 
+  /* Role selection */
+  .role-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .role-card {
+    padding: 18px;
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    background: transparent;
+    width: 100%;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .role-card:hover, .role-card.selected {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.08);
+  }
+
+  .role-card .role-flag { font-size: 28px; margin-bottom: 6px; }
+  .role-card .role-name { font-size: 16px; font-weight: 500; color: var(--text); }
+  .role-card .role-desc { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  /* API key input */
   .setup-input {
     width: 100%;
     background: var(--bg);
@@ -358,7 +128,7 @@
 
   .setup-input:focus { border-color: var(--gold); }
 
-  .setup-save {
+  .btn-primary {
     width: 100%;
     padding: 14px;
     background: linear-gradient(135deg, var(--gold), var(--gold2));
@@ -369,266 +139,630 @@
     font-size: 15px;
     font-weight: 500;
     cursor: pointer;
+    transition: all 0.2s;
   }
 
-  .dots span {
-    animation: blink 1.4s infinite;
-    opacity: 0;
+  .btn-primary:hover { opacity: 0.9; }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* MAIN APP */
+  .app { position: relative; z-index: 1; }
+
+  /* Header */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 16px 0;
+    margin-bottom: 16px;
   }
-  .dots span:nth-child(2) { animation-delay: 0.2s; }
-  .dots span:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes blink {
-    0%, 100% { opacity: 0; }
-    50% { opacity: 1; }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--gold);
   }
+
+  .user-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--red);
+    transition: background 0.3s;
+  }
+
+  .status-dot.online { background: var(--green); }
+
+  /* Connection banner */
+  .conn-banner {
+    margin: 0 16px 12px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    text-align: center;
+    background: rgba(76,175,125,0.1);
+    border: 1px solid rgba(76,175,125,0.2);
+    color: var(--green);
+    display: none;
+  }
+
+  .conn-banner.visible { display: block; }
+  .conn-banner.waiting {
+    background: rgba(201,168,76,0.1);
+    border-color: rgba(201,168,76,0.2);
+    color: var(--gold);
+  }
+
+  /* Main conversation area */
+  .conversation {
+    padding: 0 16px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 200px;
+    max-height: 40vh;
+    overflow-y: auto;
+  }
+
+  .message {
+    padding: 12px 14px;
+    border-radius: 16px;
+    max-width: 85%;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .message.mine {
+    align-self: flex-end;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-bottom-right-radius: 4px;
+  }
+
+  .message.theirs {
+    align-self: flex-start;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-bottom-left-radius: 4px;
+  }
+
+  .message-original {
+    font-size: 15px;
+    color: var(--text);
+    margin-bottom: 4px;
+    line-height: 1.5;
+  }
+
+  .message-translation {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  .message-meta {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 4px;
+    text-align: right;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Input area */
+  .input-area {
+    padding: 0 16px;
+    margin-bottom: 12px;
+  }
+
+  .input-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 14px;
+  }
+
+  .input-card textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    resize: none;
+    min-height: 70px;
+    line-height: 1.6;
+  }
+
+  .input-card textarea::placeholder { color: var(--muted); }
+
+  .input-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* Mic button */
+  .mic-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    background: transparent;
+    color: var(--gold);
+    font-size: 26px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .mic-btn:active { transform: scale(0.95); }
+
+  .mic-btn.recording {
+    border-color: var(--red);
+    color: var(--red);
+    background: rgba(224,85,85,0.1);
+    animation: pulse 1s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(224,85,85,0.4); }
+    50% { box-shadow: 0 0 0 12px rgba(224,85,85,0); }
+  }
+
+  .send-btn {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    border: none;
+    border-radius: 12px;
+    color: #0f0e0c;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* Recording indicator */
+  .recording-indicator {
+    text-align: center;
+    font-size: 13px;
+    color: var(--red);
+    padding: 6px;
+    display: none;
+  }
+
+  .recording-indicator.visible { display: block; }
+
+  /* Bottom status */
+  .bottom-status {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    padding: 4px 16px 20px;
+  }
+
+  /* Incoming translation popup */
+  .incoming-popup {
+    position: fixed;
+    top: 20px;
+    left: 16px;
+    right: 16px;
+    background: var(--card);
+    border: 1px solid var(--gold);
+    border-radius: 16px;
+    padding: 14px 16px;
+    z-index: 50;
+    display: none;
+    animation: slideDown 0.3s ease;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  }
+
+  .incoming-popup.visible { display: block; }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .incoming-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .incoming-text {
+    font-size: 17px;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .incoming-original {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* Share link */
+  .share-section {
+    padding: 0 16px 16px;
+  }
+
+  .share-btn {
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .share-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  .empty-state {
+    text-align: center;
+    color: var(--muted);
+    font-size: 14px;
+    padding: 40px 20px;
+  }
+
+  .empty-state .empty-icon { font-size: 36px; margin-bottom: 10px; }
 </style>
 </head>
 <body>
 
-<!-- API Key Setup -->
-<div class="setup-overlay" id="setupOverlay">
-  <div class="setup-box">
-    <div class="setup-icon">🔑</div>
-    <div class="setup-title">Configuration</div>
-    <div class="setup-desc">Entre ta clé API Google Cloud pour activer la traduction et la reconnaissance vocale.</div>
-    <input type="text" class="setup-input" id="apiKeyInput" placeholder="AIzaSy..." autocomplete="off" />
-    <button class="setup-save" onclick="saveApiKey()">Commencer →</button>
+<!-- STEP 1: API Key -->
+<div class="overlay" id="overlayApiKey">
+  <div class="box">
+    <div class="box-icon">🔑</div>
+    <div class="box-title">Clé API Google</div>
+    <div class="box-desc">Entre ta clé Google Cloud pour activer la traduction et la voix.</div>
+    <input type="text" class="setup-input" id="apiKeyInput" placeholder="AIzaSy..." />
+    <button class="btn-primary" onclick="saveApiKey()">Continuer →</button>
   </div>
 </div>
 
-<div class="container">
-  <header>
-    <div class="logo">தமிழ் <span>↔</span> Français</div>
-    <div class="subtitle">Traducteur familial</div>
-  </header>
-
-  <!-- Language bar -->
-  <div class="lang-bar">
-    <button class="lang-btn fr active" id="btnFr" onclick="setSourceLang('fr')">🇫🇷 Français</button>
-    <button class="swap-btn" onclick="swapLanguages()">⇄</button>
-    <button class="lang-btn ta" id="btnTa" onclick="setSourceLang('ta')">🇱🇰 Tamil</button>
-  </div>
-
-  <!-- Input card -->
-  <div class="card">
-    <div class="card-label" id="inputLabel">fr</div>
-    <textarea id="inputText" placeholder="Écris ou parle en français..." rows="4"></textarea>
-    <div class="card-footer">
-      <button class="clear-btn" onclick="clearAll()">Effacer</button>
-      <button class="mic-btn" id="micBtn" onclick="toggleRecording()" title="Parler">
-        🎙️
+<!-- STEP 2: Role selection -->
+<div class="overlay hidden" id="overlayRole">
+  <div class="box">
+    <div class="box-icon">👥</div>
+    <div class="box-title">Qui es-tu ?</div>
+    <div class="box-desc">Chaque personne choisit son rôle sur son téléphone.</div>
+    <div class="role-cards">
+      <button class="role-card" onclick="selectRole('fr')" id="roleFr">
+        <div class="role-flag">🇫🇷</div>
+        <div class="role-name">Je parle Français</div>
+        <div class="role-desc">Je reçois les traductions en Français</div>
+      </button>
+      <button class="role-card" onclick="selectRole('ta')" id="roleTa">
+        <div class="role-flag">🇱🇰</div>
+        <div class="role-name">நான் தமிழில் பேசுகிறேன்</div>
+        <div class="role-desc">Je parle Tamil Sri Lankais</div>
       </button>
     </div>
+    <button class="btn-primary" id="roleConfirmBtn" onclick="confirmRole()" disabled>Commencer</button>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div class="app" id="mainApp" style="display:none">
+
+  <!-- Incoming popup -->
+  <div class="incoming-popup" id="incomingPopup">
+    <div class="incoming-label">🔊 Message reçu</div>
+    <div class="incoming-text" id="incomingText"></div>
+    <div class="incoming-original" id="incomingOriginal"></div>
   </div>
 
-  <!-- Translate button -->
-  <button class="translate-btn" onclick="translate()" id="translateBtn">
-    Traduire
-  </button>
+  <header>
+    <div class="logo">தமிழ் ↔ FR</div>
+    <div class="user-badge">
+      <div class="status-dot" id="statusDot"></div>
+      <span id="userLabel">...</span>
+    </div>
+  </header>
 
-  <!-- Result card -->
-  <div class="result-card" id="resultCard">
-    <div class="card-label" id="outputLabel">ta</div>
-    <div class="result-text" id="resultText"></div>
-    <div class="result-actions">
-      <button class="action-btn" onclick="speakResult()">🔊 Écouter</button>
-      <button class="action-btn" onclick="copyResult()">📋 Copier</button>
+  <div class="conn-banner waiting" id="connBanner">
+    ⏳ En attente de l'autre personne...
+  </div>
+
+  <!-- Conversation -->
+  <div class="conversation" id="conversation">
+    <div class="empty-state">
+      <div class="empty-icon">💬</div>
+      <div>La conversation apparaîtra ici</div>
     </div>
   </div>
 
-  <div class="status" id="status"></div>
+  <!-- Input -->
+  <div class="input-area">
+    <div class="input-card">
+      <textarea id="inputText" placeholder="Écris ou utilise le micro..." rows="3"></textarea>
+      <div class="input-footer">
+        <button class="mic-btn" id="micBtn" onclick="toggleRecording()">🎙️</button>
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()">Envoyer ✈️</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="recording-indicator" id="recordingIndicator">
+    🔴 Écoute en cours... (appuie à nouveau pour arrêter)
+  </div>
+
+  <!-- Share -->
+  <div class="share-section">
+    <button class="share-btn" onclick="shareLink()">
+      🔗 Partager ce lien avec l'autre personne
+    </button>
+  </div>
+
+  <div class="bottom-status" id="bottomStatus"></div>
 </div>
 
-<script>
-  let apiKey = '';
-  let sourceLang = 'fr';
-  let targetLang = 'ta';
-  let recognition = null;
-  let isRecording = false;
-  let currentTranslation = '';
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getDatabase, ref, onValue, push, set, serverTimestamp, onDisconnect } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-  // Init
-  window.onload = () => {
-    const saved = localStorage.getItem('gcApiKey');
-    if (saved) {
-      apiKey = saved;
-      document.getElementById('setupOverlay').style.display = 'none';
-    }
+  const firebaseConfig = {
+    apiKey: "AIzaSyDFNqvx_7Bl46uvJro6GvXBzcew7bAUWo8",
+    authDomain: "traducteur-parents.firebaseapp.com",
+    databaseURL: "https://traducteur-parents-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "traducteur-parents",
+    storageBucket: "traducteur-parents.firebasestorage.app",
+    messagingSenderId: "515262663980",
+    appId: "1:515262663980:web:4cadd1c1d6070f3d173089"
   };
 
-  function saveApiKey() {
+  const firebaseApp = initializeApp(firebaseConfig);
+  const db = getDatabase(firebaseApp);
+
+  let myRole = null; // 'fr' or 'ta'
+  let googleApiKey = '';
+  let recognition = null;
+  let isRecording = false;
+  let otherOnline = false;
+  let lastMessageKey = null;
+
+  // Make functions global
+  window.saveApiKey = () => {
     const val = document.getElementById('apiKeyInput').value.trim();
     if (!val || !val.startsWith('AIza')) {
       alert('Clé invalide. Elle doit commencer par "AIza"');
       return;
     }
-    apiKey = val;
+    googleApiKey = val;
     localStorage.setItem('gcApiKey', val);
-    document.getElementById('setupOverlay').style.display = 'none';
+    document.getElementById('overlayApiKey').classList.add('hidden');
+    document.getElementById('overlayRole').classList.remove('hidden');
+  };
+
+  window.selectRole = (role) => {
+    myRole = role;
+    document.getElementById('roleFr').classList.toggle('selected', role === 'fr');
+    document.getElementById('roleTa').classList.toggle('selected', role === 'ta');
+    document.getElementById('roleConfirmBtn').disabled = false;
+  };
+
+  window.confirmRole = () => {
+    if (!myRole) return;
+    localStorage.setItem('myRole', myRole);
+    document.getElementById('overlayRole').classList.add('hidden');
+    document.getElementById('mainApp').style.display = 'block';
+    initApp();
+  };
+
+  window.toggleRecording = () => {
+    if (isRecording) stopRecording();
+    else startRecording();
+  };
+
+  window.sendMessage = async () => {
+    const text = document.getElementById('inputText').value.trim();
+    if (!text) return;
+    await translateAndSend(text);
+    document.getElementById('inputText').value = '';
+  };
+
+  window.shareLink = () => {
+    const url = window.location.href;
+    if (navigator.share) {
+      navigator.share({ title: 'Traducteur Tamil ↔ Français', url });
+    } else {
+      navigator.clipboard.writeText(url);
+      setStatus('✓ Lien copié !');
+    }
+  };
+
+  function initApp() {
+    const savedKey = localStorage.getItem('gcApiKey');
+    if (savedKey) googleApiKey = savedKey;
+
+    const label = myRole === 'fr' ? '🇫🇷 Français' : '🇱🇰 Tamil';
+    document.getElementById('userLabel').textContent = label;
+    document.getElementById('inputText').placeholder = 
+      myRole === 'fr' ? 'Écris en français...' : 'தமிழில் எழுதுங்கள்...';
+
+    // Presence
+    const myPresenceRef = ref(db, `presence/${myRole}`);
+    set(myPresenceRef, true);
+    onDisconnect(myPresenceRef).set(false);
+
+    // Watch other's presence
+    const otherRole = myRole === 'fr' ? 'ta' : 'fr';
+    onValue(ref(db, `presence/${otherRole}`), (snap) => {
+      otherOnline = snap.val() === true;
+      updateConnectionStatus();
+    });
+
+    // Watch messages
+    onValue(ref(db, 'messages'), (snap) => {
+      const data = snap.val();
+      if (!data) return;
+      renderMessages(data);
+    });
   }
 
-  function setSourceLang(lang) {
-    sourceLang = lang;
-    targetLang = lang === 'fr' ? 'ta' : 'fr';
-    updateLabels();
-    document.getElementById('btnFr').classList.toggle('active', lang === 'fr');
-    document.getElementById('btnTa').classList.toggle('active', lang === 'ta');
-    document.getElementById('inputText').placeholder = lang === 'fr' 
-      ? 'Écris ou parle en français...' 
-      : 'தமிழில் எழுதுங்கள் அல்லது பேசுங்கள்...';
-  }
-
-  function swapLanguages() {
-    setSourceLang(sourceLang === 'fr' ? 'ta' : 'fr');
-    const inputText = document.getElementById('inputText').value;
-    const resultText = currentTranslation;
-    document.getElementById('inputText').value = resultText;
-    if (inputText) {
-      document.getElementById('resultText').textContent = inputText;
-      currentTranslation = inputText;
-      document.getElementById('resultCard').classList.add('visible');
+  function updateConnectionStatus() {
+    const dot = document.getElementById('statusDot');
+    const banner = document.getElementById('connBanner');
+    if (otherOnline) {
+      dot.classList.add('online');
+      banner.textContent = '✅ Les deux personnes sont connectées';
+      banner.classList.remove('waiting');
+      banner.classList.add('visible');
+      setTimeout(() => banner.classList.remove('visible'), 3000);
+    } else {
+      dot.classList.remove('online');
+      banner.textContent = '⏳ En attente de l\'autre personne...';
+      banner.classList.add('waiting', 'visible');
     }
   }
 
-  function updateLabels() {
-    const langNames = { fr: '🇫🇷 Français', ta: '🇱🇰 Tamil Sri Lankais' };
-    document.getElementById('inputLabel').textContent = langNames[sourceLang];
-    document.getElementById('inputLabel').className = 'card-label ' + sourceLang;
-    document.getElementById('outputLabel').textContent = langNames[targetLang];
-    document.getElementById('outputLabel').className = 'card-label ' + targetLang;
+  function renderMessages(data) {
+    const conv = document.getElementById('conversation');
+    const keys = Object.keys(data).sort();
+    
+    if (keys.length === 0) return;
+    
+    conv.innerHTML = '';
+    keys.forEach(key => {
+      const msg = data[key];
+      const isMine = msg.from === myRole;
+      
+      const div = document.createElement('div');
+      div.className = `message ${isMine ? 'mine' : 'theirs'}`;
+      
+      const displayText = isMine ? msg.original : msg.translation;
+      const subText = isMine ? msg.translation : msg.original;
+      
+      div.innerHTML = `
+        <div class="message-original">${displayText}</div>
+        <div class="message-translation">${subText}</div>
+        <div class="message-meta">${isMine ? 'Moi' : (msg.from === 'fr' ? '🇫🇷' : '🇱🇰')}</div>
+      `;
+      conv.appendChild(div);
+
+      // Auto-speak incoming messages
+      if (!isMine && key !== lastMessageKey) {
+        lastMessageKey = key;
+        showIncomingPopup(msg.translation, msg.original);
+        speakText(msg.translation, myRole);
+      }
+    });
+
+    conv.scrollTop = conv.scrollHeight;
   }
 
-  function clearAll() {
-    document.getElementById('inputText').value = '';
-    document.getElementById('resultCard').classList.remove('visible');
-    document.getElementById('status').textContent = '';
-    currentTranslation = '';
+  function showIncomingPopup(translation, original) {
+    const popup = document.getElementById('incomingPopup');
+    document.getElementById('incomingText').textContent = translation;
+    document.getElementById('incomingOriginal').textContent = original;
+    popup.classList.add('visible');
+    setTimeout(() => popup.classList.remove('visible'), 5000);
   }
 
-  function setStatus(msg, type = '') {
-    const el = document.getElementById('status');
-    el.textContent = msg;
-    el.className = 'status ' + type;
-  }
-
-  // Translation
-  async function translate() {
-    const text = document.getElementById('inputText').value.trim();
-    if (!text) { setStatus('Entre du texte d\'abord', 'error'); return; }
-    if (!apiKey) { document.getElementById('setupOverlay').style.display = 'flex'; return; }
-
-    const btn = document.getElementById('translateBtn');
-    btn.disabled = true;
-    btn.innerHTML = 'Traduction<span class="dots"><span>.</span><span>.</span><span>.</span></span>';
-
-    const resultCard = document.getElementById('resultCard');
-    const resultText = document.getElementById('resultText');
-    resultCard.classList.add('visible');
-    resultText.className = 'result-text loading';
-    resultText.textContent = 'Traduction en cours...';
+  async function translateAndSend(text) {
+    const targetLang = myRole === 'fr' ? 'ta' : 'fr';
+    setStatus('Traduction...');
 
     try {
       const response = await fetch(
-        `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`,
+        `https://translation.googleapis.com/language/translate/v2?key=${googleApiKey}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            q: text,
-            source: sourceLang,
-            target: targetLang,
-            format: 'text'
-          })
+          body: JSON.stringify({ q: text, source: myRole, target: targetLang, format: 'text' })
         }
       );
-
       const data = await response.json();
+      if (data.error) throw new Error(data.error.message);
 
-      if (data.error) {
-        throw new Error(data.error.message);
-      }
+      const translation = data.data.translations[0].translatedText;
 
-      currentTranslation = data.data.translations[0].translatedText;
-      resultText.className = 'result-text';
-      resultText.textContent = currentTranslation;
-      setStatus('✓ Traduction réussie', 'success');
+      // Save to Firebase
+      await push(ref(db, 'messages'), {
+        from: myRole,
+        original: text,
+        translation: translation,
+        timestamp: serverTimestamp()
+      });
 
+      setStatus('');
     } catch (err) {
-      resultText.className = 'result-text';
-      resultText.textContent = '⚠️ Erreur : ' + err.message;
-      setStatus('Erreur de traduction', 'error');
+      setStatus('Erreur : ' + err.message);
     }
-
-    btn.disabled = false;
-    btn.textContent = 'Traduire';
   }
 
-  // Text-to-Speech
-  async function speakResult() {
-    if (!currentTranslation) return;
-    if (!apiKey) return;
-
-    setStatus('🔊 Lecture en cours...');
-
+  async function speakText(text, lang) {
     try {
-      const langCode = targetLang === 'ta' ? 'ta-LK' : 'fr-FR';
-      const voiceName = targetLang === 'ta' ? 'ta-IN-Standard-A' : 'fr-FR-Standard-A';
+      const langCode = lang === 'ta' ? 'ta-LK' : 'fr-FR';
+      const voiceName = lang === 'ta' ? 'ta-IN-Standard-A' : 'fr-FR-Standard-A';
 
       const response = await fetch(
-        `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`,
+        `https://texttospeech.googleapis.com/v1/text:synthesize?key=${googleApiKey}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            input: { text: currentTranslation },
+            input: { text },
             voice: { languageCode: langCode, name: voiceName },
             audioConfig: { audioEncoding: 'MP3' }
           })
         }
       );
-
       const data = await response.json();
-      if (data.error) throw new Error(data.error.message);
+      if (data.audioContent) {
+        const audio = new Audio('data:audio/mp3;base64,' + data.audioContent);
+        audio.play();
+        return;
+      }
+    } catch (e) {}
 
-      const audio = new Audio('data:audio/mp3;base64,' + data.audioContent);
-      audio.play();
-      setStatus('');
-
-    } catch (err) {
-      // Fallback to browser TTS
-      const utterance = new SpeechSynthesisUtterance(currentTranslation);
-      utterance.lang = targetLang === 'ta' ? 'ta-IN' : 'fr-FR';
-      window.speechSynthesis.speak(utterance);
-      setStatus('');
-    }
-  }
-
-  function copyResult() {
-    if (!currentTranslation) return;
-    navigator.clipboard.writeText(currentTranslation).then(() => {
-      setStatus('✓ Copié !', 'success');
-      setTimeout(() => setStatus(''), 2000);
-    });
-  }
-
-  // Speech Recognition
-  function toggleRecording() {
-    if (isRecording) {
-      stopRecording();
-    } else {
-      startRecording();
-    }
+    // Fallback browser TTS
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = lang === 'ta' ? 'ta-IN' : 'fr-FR';
+    window.speechSynthesis.speak(utterance);
   }
 
   function startRecording() {
-    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-      setStatus('Reconnaissance vocale non supportée sur ce navigateur', 'error');
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      setStatus('Reconnaissance vocale non supportée');
       return;
     }
 
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     recognition = new SpeechRecognition();
-    recognition.lang = sourceLang === 'fr' ? 'fr-FR' : 'ta-IN';
+    recognition.lang = myRole === 'fr' ? 'fr-FR' : 'ta-IN';
     recognition.continuous = false;
     recognition.interimResults = true;
 
@@ -636,7 +770,7 @@
       isRecording = true;
       document.getElementById('micBtn').classList.add('recording');
       document.getElementById('micBtn').textContent = '⏹️';
-      setStatus('🎙️ Écoute en cours...');
+      document.getElementById('recordingIndicator').classList.add('visible');
     };
 
     recognition.onresult = (event) => {
@@ -651,17 +785,20 @@
       isRecording = false;
       document.getElementById('micBtn').classList.remove('recording');
       document.getElementById('micBtn').textContent = '🎙️';
-      setStatus('');
-      // Auto-translate after speech
+      document.getElementById('recordingIndicator').classList.remove('visible');
       const text = document.getElementById('inputText').value.trim();
-      if (text) translate();
+      if (text) {
+        translateAndSend(text);
+        document.getElementById('inputText').value = '';
+      }
     };
 
     recognition.onerror = (e) => {
-      setStatus('Erreur micro : ' + e.error, 'error');
+      setStatus('Erreur micro : ' + e.error);
       isRecording = false;
       document.getElementById('micBtn').classList.remove('recording');
       document.getElementById('micBtn').textContent = '🎙️';
+      document.getElementById('recordingIndicator').classList.remove('visible');
     };
 
     recognition.start();
@@ -671,15 +808,28 @@
     if (recognition) recognition.stop();
   }
 
-  // Enter key to translate
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      translate();
+  function setStatus(msg) {
+    document.getElementById('bottomStatus').textContent = msg;
+  }
+
+  // Init on load
+  window.addEventListener('load', () => {
+    const savedKey = localStorage.getItem('gcApiKey');
+    const savedRole = localStorage.getItem('myRole');
+
+    if (savedKey && savedRole) {
+      googleApiKey = savedKey;
+      myRole = savedRole;
+      document.getElementById('overlayApiKey').classList.add('hidden');
+      document.getElementById('overlayRole').classList.add('hidden');
+      document.getElementById('mainApp').style.display = 'block';
+      initApp();
+    } else if (savedKey) {
+      googleApiKey = savedKey;
+      document.getElementById('overlayApiKey').classList.add('hidden');
+      document.getElementById('overlayRole').classList.remove('hidden');
     }
   });
-
-  updateLabels();
 </script>
 </body>
 </html>
