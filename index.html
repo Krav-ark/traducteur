@@ -163,6 +163,20 @@
     color: var(--gold);
   }
 
+  .switch-lang-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 12px;
+    color: var(--gold);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .switch-lang-btn:hover { border-color: var(--gold); background: rgba(201,168,76,0.08); }
+
   .user-badge {
     display: flex;
     align-items: center;
@@ -485,6 +499,7 @@
 
   <header>
     <div class="logo">தமிழ் ↔ FR</div>
+    <button class="switch-lang-btn" onclick="switchRole()" id="switchBtn">🔄 Changer</button>
     <div class="user-badge">
       <div class="status-dot" id="statusDot"></div>
       <span id="userLabel">...</span>
@@ -552,8 +567,21 @@
   let isRecording = false;
   let otherOnline = false;
   let lastMessageKey = null;
+  let speakTimer = null;
 
-  // Make functions global
+  window.switchRole = () => {
+    // Clear saved role and show role selection again
+    localStorage.removeItem('myRole');
+    myRole = null;
+    lastMessageKey = null;
+    if (speakTimer) clearTimeout(speakTimer);
+    document.getElementById('mainApp').style.display = 'none';
+    document.getElementById('overlayRole').classList.remove('hidden');
+    document.getElementById('roleFr').classList.remove('selected');
+    document.getElementById('roleTa').classList.remove('selected');
+    document.getElementById('roleConfirmBtn').disabled = true;
+  };
+
   window.saveApiKey = () => {
     const val = document.getElementById('apiKeyInput').value.trim();
     if (!val || !val.startsWith('AIza')) {
@@ -655,6 +683,18 @@
     if (keys.length === 0) return;
     
     conv.innerHTML = '';
+
+    // Find the last incoming message key
+    let lastIncomingKey = null;
+    let lastIncomingMsg = null;
+    keys.forEach(key => {
+      const msg = data[key];
+      if (msg.from !== myRole) {
+        lastIncomingKey = key;
+        lastIncomingMsg = msg;
+      }
+    });
+
     keys.forEach(key => {
       const msg = data[key];
       const isMine = msg.from === myRole;
@@ -671,14 +711,21 @@
         <div class="message-meta">${isMine ? 'Moi' : (msg.from === 'fr' ? '🇫🇷' : '🇱🇰')}</div>
       `;
       conv.appendChild(div);
-
-      // Auto-speak incoming messages
-      if (!isMine && key !== lastMessageKey) {
-        lastMessageKey = key;
-        showIncomingPopup(msg.translation, msg.original);
-        speakText(msg.translation, myRole);
-      }
     });
+
+    // Only speak on the RECEIVER side, not the sender
+    if (lastIncomingKey && lastIncomingKey !== lastMessageKey) {
+      lastMessageKey = lastIncomingKey;
+      // lastIncomingMsg.from is the sender's role
+      // Only speak if I am NOT the one who sent it
+      if (lastIncomingMsg.from !== myRole) {
+        showIncomingPopup(lastIncomingMsg.translation, lastIncomingMsg.original);
+        if (speakTimer) clearTimeout(speakTimer);
+        speakTimer = setTimeout(() => {
+          speakText(lastIncomingMsg.translation, myRole);
+        }, 1000);
+      }
+    }
 
     conv.scrollTop = conv.scrollHeight;
   }
