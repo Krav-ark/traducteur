@@ -492,7 +492,10 @@
 
   <!-- Incoming popup -->
   <div class="incoming-popup" id="incomingPopup">
-    <div class="incoming-label">🔊 Message reçu</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <div class="incoming-label" style="margin-bottom:0">🔊 Message reçu</div>
+      <button onclick="stopSpeaking()" style="background:rgba(224,85,85,0.15);border:1px solid var(--red);color:var(--red);border-radius:8px;padding:4px 10px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;">⏹ Stop</button>
+    </div>
     <div class="incoming-text" id="incomingText"></div>
     <div class="incoming-original" id="incomingOriginal"></div>
   </div>
@@ -561,13 +564,21 @@
   const firebaseApp = initializeApp(firebaseConfig);
   const db = getDatabase(firebaseApp);
 
-  let myRole = null; // 'fr' or 'ta'
+  let myRole = null;
   let googleApiKey = '';
   let recognition = null;
   let isRecording = false;
   let otherOnline = false;
   let lastMessageKey = null;
   let speakTimer = null;
+  let currentAudio = null;
+
+  window.stopSpeaking = () => {
+    if (speakTimer) clearTimeout(speakTimer);
+    if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+    window.speechSynthesis.cancel();
+    document.getElementById('incomingPopup').classList.remove('visible');
+  };
 
   window.switchRole = () => {
     // Clear saved role and show role selection again
@@ -789,8 +800,8 @@
       );
       const data = await response.json();
       if (data.audioContent) {
-        const audio = new Audio('data:audio/mp3;base64,' + data.audioContent);
-        audio.play();
+        currentAudio = new Audio('data:audio/mp3;base64,' + data.audioContent);
+        currentAudio.play();
         return;
       }
     } catch (e) {}
