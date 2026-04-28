@@ -648,12 +648,14 @@
 
     const label = myRole === 'fr' ? '🇫🇷 Français' : '🇱🇰 Tamil';
     document.getElementById('userLabel').textContent = label;
-    document.getElementById('inputText').placeholder = 
+    document.getElementById('inputText').placeholder =
       myRole === 'fr' ? 'Écris en français...' : 'தமிழில் எழுதுங்கள்...';
 
     // Presence
     const myPresenceRef = ref(db, `presence/${myRole}`);
-    set(myPresenceRef, true);
+    set(myPresenceRef, true).catch(err => {
+      setStatus('⚠️ Firebase bloqué : ' + err.message + ' → Vérifie les règles Firebase');
+    });
     onDisconnect(myPresenceRef).set(false);
 
     // Watch other's presence
@@ -668,6 +670,8 @@
       const data = snap.val();
       if (!data) return;
       renderMessages(data);
+    }, (err) => {
+      setStatus('⚠️ Firebase : ' + err.message + ' → Vérifie les règles dans la console Firebase');
     });
   }
 
